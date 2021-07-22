@@ -1,32 +1,32 @@
-const express = require("express");
-const http = require("http");
-const socketIo = require("socket.io");
-const citybikeurl = "http://api.citybik.es/v2/networks/decobike-miami-beach"
-
+const express = require('express');
+const http = require('http');
+const cors = require('cors');
+const routes = require("./routes");
+const socketIo = require('socket.io');
 
 const port = process.env.PORT || 4001;
-const index = require("./routes/index");
 const app = express();
-
-
-app.use(index);
 
 const server = http.createServer(app);
 const io = socketIo(server); // < Interesting!
-let interval;
 
-io.on("connection", socket => {
-  var socketId = socket.id;
-  var clientIp = socket.request.connection.remoteAddress;
-  console.log('New connection ' + socketId + ' from ' + clientIp);
-  socket.on("disconnect", () => {
-    console.log("Client disconnected");
+io.on('connection', (socket) => {
+  console.log('client connect - ', socket.id);
+
+  socket.on('getData', () => {
+    console.log('Obtener datos');
+  });
+
+  socket.on('disconnect', (reason) => {
+    console.log('user disconnected', reason);
   });
 });
 
-
+app.use(cors());
+app.use((request, response, next) => {
+  request.io = io;
+  next();
+});
+app.use(routes);
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
-
-
-
