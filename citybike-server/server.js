@@ -14,7 +14,9 @@ const io = socketIo(server); // < Interesting!
 io.on('connection', (socket) => {
   console.log('client connect - ', socket.id);
 
-  socket.on('getData', () => CityBikesController.getData(socket))
+  socket.on('getData', (data) => CityBikesController.getData(socket, data.idCity));
+
+  socket.on('getDataSearch', () => CityBikesController.getCities(socket));
 
   socket.on('disconnect', (reason) => {
     console.log('user disconnected', reason);

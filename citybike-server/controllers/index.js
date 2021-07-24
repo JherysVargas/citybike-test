@@ -1,10 +1,10 @@
 const axios = require('axios');
 
-const CITYBIKEURL = "http://api.citybik.es/v2/networks/decobike-miami-beach";
+const CITYBIKEURL = "http://api.citybik.es/v2/networks";
 
 class CityBikesController {
-  async getData(io) {
-    const response = await this.getDataCityBike();
+  async getData(io, idCity) {
+    const response = await this.getDataCityBike(idCity);
 
     setInterval(() => {
       io.emit('updateData', response);
@@ -12,12 +12,22 @@ class CityBikesController {
     io.emit('updateData', response);
   }
 
-  async getDataCityBike() {
-    const response = await axios.get(CITYBIKEURL);
+  async getDataCityBike(idCity) {
+    const response = await axios.get(`${CITYBIKEURL}/${idCity}`);
     if (response.status === 200) {
       return response.data
     }
     return null
+  }
+
+  async getCities(io) {
+    const response = await axios.get(CITYBIKEURL);
+    if (response.status === 200) {
+      io.emit('updateDataSearch', response.data);
+      return true;
+    }
+    io.emit('updateDataSearch', []);
+    return false;
   }
 }
 
