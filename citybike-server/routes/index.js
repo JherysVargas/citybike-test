@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const CityBikesController = require('../controllers')
 
-const citybikeurl = "http://api.citybik.es/v2/networks/decobike-miami-beach";
-
-router.get("/", (req, res) => {
-  req.io.emit('updateData', { data: 'Hola soy una prueba' });
-  res.send({ response: "I am alive" }).status(200);
+router.get("/", async (req, res) => {
+  const response = await CityBikesController.getData(req.io);
+  res.json(response).status(200);
 });
+
 module.exports = router;

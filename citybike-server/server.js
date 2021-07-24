@@ -3,6 +3,7 @@ const http = require('http');
 const cors = require('cors');
 const routes = require("./routes");
 const socketIo = require('socket.io');
+const CityBikesController = require('./controllers')
 
 const port = process.env.PORT || 4001;
 const app = express();
@@ -13,9 +14,7 @@ const io = socketIo(server); // < Interesting!
 io.on('connection', (socket) => {
   console.log('client connect - ', socket.id);
 
-  socket.on('getData', () => {
-    console.log('Obtener datos');
-  });
+  socket.on('getData', () => CityBikesController.getData(socket))
 
   socket.on('disconnect', (reason) => {
     console.log('user disconnected', reason);
