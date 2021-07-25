@@ -1,4 +1,4 @@
-import React, { Key, useCallback } from 'react'
+import React, { Key, useCallback, memo } from 'react'
 import { Select } from 'antd'
 import CardComponent from '../../../../components/card'
 import { useSearch } from '../../providers/useSearch'
@@ -16,10 +16,7 @@ const Search = () => {
 
   return (
     <CardComponent
-      style={{
-        top: 10,
-        left: 10
-      }}
+      style={{ position: 'relative' }}
     >
       <h1
         style={{ margin: 0, color: '#ffffff' }}
@@ -36,7 +33,8 @@ const Search = () => {
       />
       <Select
         showSearch
-        style={{ width: 210, marginBottom: 15, marginTop: 15 }}
+        style={{ width: '100%', marginBottom: 15, marginTop: 15 }}
+        dropdownStyle={{ zIndex: 999999 }}
         placeholder="Select a city"
         defaultValue={selectCity?.id}
         onChange={(value: string) => handleSelectCity(value)}
@@ -47,4 +45,4 @@ const Search = () => {
   )
 }
 
-export default Search
+export default memo(Search);

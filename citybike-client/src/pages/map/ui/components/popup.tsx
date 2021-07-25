@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import CardComponent from '../../../../components/card';
 import { useMapPage } from '../../providers/useMapPage';
 
@@ -11,7 +11,7 @@ const PopupMap = () => {
     detailHover
     ? <CardComponent
       style={{
-        bottom: 60,
+        bottom: 15,
         left: '36%',
         width: '30%',
         right: '36%',
@@ -48,4 +48,4 @@ const PopupMap = () => {
   )
 }
 
-export default PopupMap
+export default memo(PopupMap);

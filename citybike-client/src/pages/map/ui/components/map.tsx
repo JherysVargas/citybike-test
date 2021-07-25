@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, memo } from 'react';
 import MarkerComponent from './marker';
 import { useMapPage } from '../../providers/useMapPage';
 import { MapContainer, TileLayer } from "react-leaflet";
@@ -42,4 +42,4 @@ const MapComponent = () => {
   );
 }
 
-export default MapComponent;
+export default memo(MapComponent);
